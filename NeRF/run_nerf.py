@@ -4,6 +4,7 @@ import imageio
 import time
 import random
 import socket
+from torch.utils.tensorboard import SummaryWriter
 
 import cv2 as cv
 
@@ -98,11 +99,12 @@ def train():
     date_time =  datetime.now().strftime('%Y_%m_%d_%H_%M_%S')
     args.expname = "{}_{}_{}".format(args.expname, host_name, date_time)
 
-    if not args.debug and not args.render_only: 
-        wandb.init(
-            name=args.expname,
-            project="SCN",
-        )
+    if not args.debug and not args.render_only:
+        writer = SummaryWriter(os.path.join(args.expname, "tensorboard"))
+       # wandb.init(
+           # name=args.expname,
+           # project="SCN",
+        #)
 
     # Multi-GPU
     args.n_gpus = torch.cuda.device_count()
@@ -895,9 +897,11 @@ def train():
 
         # Logging Step
             
-        for key, val in images_to_log.items():
-            scalars_to_log[key] = wandb.Image(val)    
-        wandb.log(scalars_to_log)
+        #for key, val in images_to_log.items():
+            #writer.add_figure('Visualization'+str(key), val, global_step)
+        writer.add_scalar('Loss', train_loss, global_step)
+           # scalars_to_log[key] = wandb.Image(val)    
+        #wandb.log(scalars_to_log)
                 
         global_step += 1
 
@@ -1040,7 +1044,10 @@ def train():
     print(f"Train LPIPS: {train_lpips_mean}")
 
     if not args.debug:
-        wandb.log(train_log_at_end, step=global_step)
+        writer.add_scalar('Train_last PSNR', train_log_at_end["train_last/PSNR"], global_step)
+        writer.add_scalar('Train_last SSIM', train_log_at_end["train_last/SSIM"], global_step)
+        writer.add_scalar('Train_last LPIPS', train_log_at_end["train_last/LPIPS"], global_step)
+    #    wandb.log(train_log_at_end, step=global_step)
 
 if __name__ == '__main__':
     torch.set_default_tensor_type('torch.cuda.FloatTensor')
