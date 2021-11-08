@@ -100,7 +100,7 @@ def train():
     args.expname = "{}_{}_{}".format(args.expname, host_name, date_time)
 
     if not args.debug and not args.render_only:
-        writer = SummaryWriter(os.path.join(args.expname, "tensorboard"))
+        writer = SummaryWriter(os.path.join('logs', args.expname, "tensorboard"))
        # wandb.init(
            # name=args.expname,
            # project="SCN",
