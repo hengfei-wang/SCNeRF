@@ -97,7 +97,7 @@ def train():
         
     host_name = socket.gethostname()
     date_time =  datetime.now().strftime('%Y_%m_%d_%H_%M_%S')
-    if args.expname is none:
+    if len(str(args.expname))<33:
         args.expname = "{}_{}_{}".format(args.expname, host_name, date_time)
 
     if not args.debug and not args.render_only:
