@@ -2,7 +2,7 @@ cd NeRF
 
 python run_nerf.py \
     --config configs/llff_data/xgaze.txt \
-    --expname $(basename "${0%.*}") \
+    --expname main1_xgaze_ours_bask-pg0309u29a_2021_11_02_02_04_23 \
     --chunk 8192 \
     --N_rand 1024 \
     --camera_model pinhole_rot_noise_10k_rayo_rayd \
