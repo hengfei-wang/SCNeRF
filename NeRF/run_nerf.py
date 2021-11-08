@@ -97,7 +97,8 @@ def train():
         
     host_name = socket.gethostname()
     date_time =  datetime.now().strftime('%Y_%m_%d_%H_%M_%S')
-    args.expname = "{}_{}_{}".format(args.expname, host_name, date_time)
+    if args.expname is none:
+        args.expname = "{}_{}_{}".format(args.expname, host_name, date_time)
 
     if not args.debug and not args.render_only:
         writer = SummaryWriter(os.path.join(args.basedir, args.expname, "tensorboard"))
