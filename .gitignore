@@ -9,6 +9,7 @@ NeRF/_unit_test_matches_result
 *__pycache__*
 *debug*
 *wandb*
+data/*
 
 nerfplusplus/data/*
 nerfplusplus/logs
